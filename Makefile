@@ -6,7 +6,7 @@ EXEC = $(TASK)/$(FILE)
 COMMIT_MSG ?= "Initial commit"
 USERNAME ?= Nehal-2
 
-# Current directory
+# Current directory name
 REPO_NAME := $(notdir $(shell pwd))
 
 # Default target: compile the C source files
@@ -21,9 +21,9 @@ run: compile
 	@echo "Running $(EXEC)..."
 	@./$(EXEC)
 
-# Clean up generated executable
+# Clean up generated executables
 clean:
-	@echo "Cleaning up $(EXEC)..."
+	@echo "Cleaning up all executables..."
 	@find . -type f -executable -exec rm -f {} +
 
 # Edit the specified C file with vim
@@ -42,11 +42,14 @@ git:
 	@git add .
 
 # Git commit target
-commit:
+commit: git
 	@echo "Committing changes..."
-	@git commit -m "$(COMMIT_MSG)"
+	@git commit -m $(COMMIT_MSG)
+
+# Git push target
+push: commit
 	@echo "Pushing changes to the main branch..."
 	@git push -u origin main
 
 # Declare phony targets
-.PHONY: all compile run clean edit push
+.PHONY: all compile run clean edit git commit push
