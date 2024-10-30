@@ -44,7 +44,11 @@ git:
 # Git commit target
 commit: git
 	@echo "Committing changes..."
-	@git commit -m $(COMMIT_MSG)
+	@if ! git diff-index --quiet HEAD; then \
+		git commit -m $(COMMIT_MSG); \
+	else \
+		echo "No changes to commit."; \
+	fi
 
 # Git push target
 push: commit
